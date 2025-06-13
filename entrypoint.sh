@@ -5,7 +5,7 @@ set -x
 
 run_api() {
   echo "Starting GAPI with arguments: $*"
-  exec gunicorn -k uvicorn_worker.UvicornWorker --preload -t 0 "$@" 'src.app.instances.api:api'
+  exec gunicorn -k uvicorn_worker.UvicornWorker --preload "$@" 'src.app.instances.api:api'
 }
 
 # Check if at least one argument is provided
