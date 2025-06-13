@@ -1,0 +1,17 @@
+
+services:
+
+  rabbitmq:
+    image: rabbitmq:4-management
+    environment:
+      RABBITMQ_DEFAULT_USER: dev
+      RABBITMQ_DEFAULT_PASS: dev
+    ports:
+      - "5672:5672"   # RabbitMQ broker port
+      - "15672:15672" # RabbitMQ management console
+    restart: always
+    networks:
+      - main
+
+networks:
+    main:

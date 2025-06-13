@@ -1,0 +1,24 @@
+include:
+  - docker-compose.dependencies.yml
+
+services:
+
+  api:
+    build:
+      context: .
+    environment:
+      PROJECT_NAME: "${PROJECT_NAME:-api}"
+      PROJECT_VERSION: "${PROJECT_VERSION:-docker-compose}"
+      HOST_RABBITMQ: rabbitmq
+    env_file:
+      - .env
+    command:
+      - api
+      - --bind=0.0.0.0:8000
+      - --reload
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/opt/
+    networks:
+      - main
