@@ -1,0 +1,56 @@
+name: Build docker image
+
+on:
+  push:
+    tags:
+      - v*
+    branches:
+      - main
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+
+env:
+  DOCKER_URI_PREFIX: ""
+
+jobs:
+  build:
+
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - id: install
+        uses: ./.github/actions/install
+
+      - name: Log in to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_KEY }}
+          AWS_REGION: us-east-1
+
+      - name: Main docker tag
+        if: github.ref == 'refs/heads/main'
+        run: |
+          echo "ENV_TAG=main" >> $GITHUB_ENV
+          echo "UNSAFE_TAGS=$(make info-version)" >> $GITHUB_ENV
+
+      - name: PR docker tag
+        if: github.event_name == 'pull_request'
+        run: |
+          echo "ENV_TAG=pr-${{ github.event.number }}" >> $GITHUB_ENV
+
+      # Step 3: Build and tag
+      - name: Build Docker image
+        run: |
+          PROJECT_VERSION="$(make info-version)"
+          UNSAFE_TAGS="${ENV_TAG} $(echo $GITHUB_SHA | cut -c1-7) $GITHUB_SHA ${UNSAFE_TAGS}"
+          export DOCKER_TAGS="$(echo $UNSAFE_TAGS | sed 's/[\/:=+]/_/g')"
+          make build-docker

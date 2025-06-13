@@ -1,0 +1,46 @@
+name: "Install Project"
+description: "Install project dependencies"
+
+inputs:
+  poetry-version:
+    required: true
+    description: "The version of poetry to install"
+    default: "2.1.2"
+
+outputs:
+  python-version:
+    description: "The version of python installed"
+    value: ${{ steps.setup-python.outputs.python-version }}
+
+  python-path:
+    description: "The path to the python executable"
+    value: ${{ steps.setup-python.outputs.python-path }}
+
+  poetry-cache-hit:
+    description: "Whether the poetry cache was hit"
+    value: ${{ steps.poetry-cache.outputs.cache-hit }}
+
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/setup-python@v5
+      id: setup-python
+      with:
+        python-version-file: '.python-version'
+
+    - name: Install poetry
+      uses: snok/install-poetry@v1
+      with:
+        version: ${{ inputs.poetry-version }}
+        virtualenvs-path: .venv
+
+    - name: Install dependencies from cache
+      id: poetry-cache
+      uses: actions/cache@v4
+      with:
+        path: .venv
+        key: poetry-ci-dependencies-${{ hashFiles('**/poetry.lock') }}
+
+    - name: Install
+      shell: bash
+      run: poetry install --no-interaction --no-root
