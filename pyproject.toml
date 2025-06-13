@@ -1,0 +1,46 @@
+[tool.poetry]
+package-mode = false
+name = "verbio-test"
+version = "0.1.0"
+description = ""
+authors = [
+    "Aran Moncusi Ramirez <aran@digitalpoet.info>"
+]
+
+readme = "README.md"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+
+[tool.poetry.dependencies]
+python = "^3.13"
+dependency-injector = {extras = ["yaml"], version = "^4.45.0"}
+gunicorn = "^23.0.0"
+uvicorn-worker = "^0.3.0"
+fastapi = "^0.115.12"
+uvicorn = "^0.34.0"
+pydantic = "^2.11.2"
+dacite = "^1.9.2"
+faststream = {extras = ["rabbit"], version = "^0.5.42"}
+
+
+[tool.poetry.group.test.dependencies]
+pytest = "^8.3.4"
+pytest-cov = "^6.1.0"
+coverage = "^7.8.0"
+testcontainers = {extras = ["rabbitmq", "mongodb"], version = "^4.10.0"}
+pytest-asyncio = "^0.26.0"
+
+[tool.poetry.group.dev.dependencies]
+pre-commit = "^4.2.0"
+commitizen = "^4.5.1"
+
+
+[tool.commitizen]
+name = "cz_conventional_commits"
+tag_format = "v$version"
+major_version_zero = true
+version_provider = "poetry"
+

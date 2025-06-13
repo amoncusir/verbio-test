@@ -1,0 +1,22 @@
+# Dockerfile ignore
+**/.git
+**/.gitignore
+**/.dockerignore
+**/.idea
+**/.vscode
+**/__pycache__
+**/*.pyc
+**/*.pyo
+**/*.pyd
+**/tests/
+**/node_modules/
+**/npm-debug.log
+**/*.md
+
+.DS_Store
+.python-version
+.pre-commit-config.yaml
+sonar-project.properties
+
+docker-compose.yml
+Dockerfile
