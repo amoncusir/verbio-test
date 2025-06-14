@@ -1,0 +1,27 @@
+---
+
+name: "${PROJECT_NAME}"
+version: "${PROJECT_VERSION}"
+debug: true
+profiles:
+- 'dev'
+
+log_level: DEBUG
+
+faststream:
+  rabbitmq:
+    url: 'amqp://dev:dev@${HOST_RABBITMQ:localhost}:5672//'
+    max_consumers: 1
+    connection_timeout: 600
+    event:
+      exchange_name: eventbus
+      auto_delete: true
+      default_retries: 0
+    task:
+      exchange_name: tasks
+      auto_delete: true
+      default_retries: 0
+      route_key: "task.${PROJECT_NAME}"
+
+module:
+  common: {}
