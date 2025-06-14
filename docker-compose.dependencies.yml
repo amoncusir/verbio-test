@@ -9,6 +9,11 @@ services:
     ports:
       - "5672:5672"   # RabbitMQ broker port
       - "15672:15672" # RabbitMQ management console
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 5s
+      timeout: 5s
+      retries: 3
     restart: always
     networks:
       - main

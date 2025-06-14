@@ -76,7 +76,6 @@ prune-git-untracked-branches:
 		echo "No untracked branches to delete."; \
 	fi
 
-
 .PHONY: test
 test:
 ifeq ($(CI),true)
@@ -107,5 +106,9 @@ serve:
 	poetry run uvicorn --host=0.0.0.0 --port=8000 'src.app.instances.api:api' --reload
 
 .PHONY: serve-prod
+serve-dependencies:
+	docker compose -f docker-compose.dependencies.yml up
+
+.PHONY: serve-prod
 serve-prod:
-	poetry run gunicorn -k uvicorn_worker.UvicornWorker -b :8000 'src.app.instances.api:api' -w 4 --threads 4 --preload
+	docker compose -f docker-compose.yml up
