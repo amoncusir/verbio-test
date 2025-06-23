@@ -24,3 +24,6 @@ TBD
 ## Run tests
 
 > Run all tests and coverage: `make test`
+
+## License
+This project is licensed for private use only. See the [LICENSE](./LICENSE) file for details.
