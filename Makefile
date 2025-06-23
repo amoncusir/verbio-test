@@ -109,6 +109,6 @@ serve:
 serve-dependencies:
 	docker compose -f docker-compose.dependencies.yml up
 
-.PHONY: serve-prod
-serve-prod:
-	docker compose -f docker-compose.yml up
+.PHONY: run
+run:
+	docker compose -f docker-compose.yml up --force-recreate --build
