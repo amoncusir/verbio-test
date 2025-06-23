@@ -16,12 +16,18 @@ def generate_token(*values: int | str | None) -> str:
         else:
             serialized_values.append("")
 
+    if len(serialized_values) == 0:
+        return ""
+
     token = ";".join(serialized_values)
 
     return base64.urlsafe_b64encode(token.encode("utf-8")).decode("utf-8")
 
 
 def decode_token(token: str) -> tuple[int | str | None, ...]:
+    if token == "":
+        return tuple()
+
     token = base64.urlsafe_b64decode(token.encode("utf-8")).decode("utf-8")
     values = token.split(";")
     parsed_values = []
