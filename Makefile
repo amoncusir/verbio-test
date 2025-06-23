@@ -3,7 +3,6 @@ PWD := $(dir $(abspath $(firstword $(MAKEFILE_LIST))))
 
 SOURCE_DIR = src
 TEST_DIR = tests
-INFRA_DIR = infrastructure
 PROJECT_DIRS = $(SOURCE_DIR) $(TEST_DIR)
 
 PROJECT_VERSION ?= $(shell poetry version -s)
