@@ -24,5 +24,5 @@ class InMemoryRepositoryFindTextDetectionQuery(FindTextDetectionQuery):
             language=value.language,
             content=value.content,
             matches=value.matches,
-            has_detections=len(value.matches) > 0 if value.matches else None,
+            has_detections=len(value.matches) > 0 if value.matches is not None else None,
         )

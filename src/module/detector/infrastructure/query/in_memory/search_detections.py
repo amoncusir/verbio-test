@@ -33,7 +33,7 @@ class InMemoryRepositorySearchTextDetectionsQuery(SearchTextDetectionsQuery):
                 language=v.language,
                 content=v.content,
                 matches=v.matches,
-                has_detections=len(v.matches) > 0 if v.matches else None,
+                has_detections=len(v.matches) > 0 if v.matches is not None else None,
             )
 
         values = list(store.values())[request.index :]
